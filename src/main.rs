@@ -1,4 +1,6 @@
 use elo_simulator::entity::*;
+use elo_simulator::sim;
+use elo_simulator::sim::Probability;
 use toml::from_slice;
 
 fn main() -> std::io::Result<()> {
@@ -9,5 +11,26 @@ fn main() -> std::io::Result<()> {
     let dat = std::fs::read(filename)?;
     let config: GameConfig = from_slice(&dat).unwrap();
     println!("config = {:?}", config);
+    let probs = sim::sim(config.clone());
+    for i in 0..config.participants.len() {
+        if config.participants[i].is_absent {
+            continue;
+        }
+        println!(
+            "{:?}\t{}",
+            config.participants[i],
+            display_prob(probs[0][i]),
+        );
+    }
     Ok(())
+}
+
+fn display_prob(p: Probability) -> String {
+    if p >= 0.001 {
+        return format!("{:.4}%", 100.0 * p);
+    }
+    if p >= 1.0e-6 {
+        return format!("{:.4} ppm", 1.0e6 * p);
+    }
+    return (1.0e9 * p).to_string() + " ppb";
 }

@@ -4,6 +4,7 @@ use std::fmt::Debug;
 #[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
 pub struct GameConfig {
     pub participants: Vec<Participant>,
+    pub kind: KindConfig,
 }
 
 #[derive(Clone, PartialEq, Serialize, Deserialize)]
@@ -19,6 +20,14 @@ impl Debug for Participant {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(f, "{} ({})", self.name, self.rating)
     }
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum KindConfig {
+    Elimination,
+    RoundRobin,
+    Custom,
 }
 
 fn is_false(&a: &bool) -> bool {
