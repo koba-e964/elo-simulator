@@ -1,6 +1,6 @@
 use rand::{thread_rng, Rng as _};
 
-use crate::entity::{GameConfig, KindConfig};
+use crate::entity::{win_prob, GameConfig, KindConfig, Probability};
 
 pub fn sim(config: GameConfig) -> Vec<Vec<Probability>> {
     // TODO: now only elimination is supported
@@ -55,12 +55,4 @@ pub fn sim(config: GameConfig) -> Vec<Vec<Probability>> {
         probs_proceed[i] = proceeds[i] as f64 / NUMBER_OF_SIMS as f64;
     }
     vec![probs_win, probs_proceed]
-}
-
-pub type Probability = f64;
-
-fn win_prob(rating_me: f64, rating_other: f64) -> Probability {
-    // 400 higher, 10 times likely to win.
-    let odds = (10.0_f64).powf((rating_me - rating_other) / 400.0);
-    odds / (1.0 + odds)
 }
