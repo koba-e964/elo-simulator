@@ -12,14 +12,17 @@ fn main() -> std::io::Result<()> {
     let config: GameConfig = from_slice(&dat).unwrap();
     println!("config = {:?}", config);
     let probs = sim::sim(config.clone());
+    println!("|{}\t|{}\t|{}\t|", "参加者", "優勝確率", "本戦出場確率");
+    println!("|---|---|---|");
     for i in 0..config.participants.len() {
         if config.participants[i].is_absent {
             continue;
         }
         println!(
-            "{:?}\t{}",
+            "|{:?}\t|{}\t|{}\t|",
             config.participants[i],
             display_prob(probs[0][i]),
+            display_prob(probs[1][i]),
         );
     }
     Ok(())

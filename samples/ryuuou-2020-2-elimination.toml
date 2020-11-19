@@ -2,6 +2,9 @@
 # 対戦表: https://www.shogi.or.jp/match/ryuuou/34/2hon.html
 # レーティング: http://kishibetsu.com/ranking2.html (2020-11-18)
 
+# elimination: トーナメント
+# roundrobin: 総当たり
+# custom: その他
 kind = "elimination"
 
 [[participants]]

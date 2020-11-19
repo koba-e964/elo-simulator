@@ -16,6 +16,7 @@ pub fn sim(config: GameConfig) -> Vec<Vec<Probability>> {
     };
 
     let mut wins = vec![0u64; n];
+    let mut proceeds = vec![0u64; n];
     let ratings: Vec<f64> = config.participants.iter().map(|x| x.rating).collect();
 
     let mut rng = thread_rng();
@@ -36,17 +37,24 @@ pub fn sim(config: GameConfig) -> Vec<Vec<Probability>> {
                 }
             }
             rem = next;
+            if rem.len() == 2 {
+                for i in 0..2 {
+                    proceeds[rem[i]] += 1;
+                }
+            }
         }
         wins[rem[0]] += 1;
     }
-    let mut probs = vec![0.0; n];
+    let mut probs_win = vec![0.0; n];
+    let mut probs_proceed = vec![0.0; n];
     for i in 0..n {
         if config.participants[i].is_absent {
             continue;
         }
-        probs[i] = wins[i] as f64 / NUMBER_OF_SIMS as f64;
+        probs_win[i] = wins[i] as f64 / NUMBER_OF_SIMS as f64;
+        probs_proceed[i] = proceeds[i] as f64 / NUMBER_OF_SIMS as f64;
     }
-    vec![probs]
+    vec![probs_win, probs_proceed]
 }
 
 pub type Probability = f64;
