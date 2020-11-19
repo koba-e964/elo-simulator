@@ -1,0 +1,52 @@
+# https://www.youtube.com/watch?v=SAovVQBzpAw&t=281s&ab_channel=%E3%81%9F%E3%82%93%E3%81%9F%E3%82%93%E3%83%81%E3%83%A3%E3%83%B3%E3%83%8D%E3%83%AB
+# 対戦表: https://www.shogi.or.jp/match/ryuuou/34/2hon.html
+# レーティング: http://kishibetsu.com/ranking2.html (2020-11-19)
+[[participants]]
+name = "渡辺明名人"
+rating = 1931
+[[participants]]
+name = "杉本昌隆八段"
+rating = 1589
+[[participants]]
+name = "藤井猛九段"
+rating = 1619
+[[participants]]
+name = "郷田真隆九段"
+rating = 1714
+[[participants]]
+name = "森内俊之九段"
+rating = 1609
+[[participants]]
+name = "八代弥七段"
+rating = 1715
+[[participants]]
+name = "菅井竜也八段"
+rating = 1810
+[[participants]]
+name = "屋敷伸之九段"
+rating = 1657
+[[participants]]
+name = "松尾歩八段"
+rating = 1713
+[[participants]]
+name = "深浦康市九段"
+rating = 1716
+[[participants]]
+name = "千田翔太七段"
+rating = 1818
+[[participants]]
+name = "小林裕士七段"
+rating = 1554
+[[participants]]
+name = "阿久津主税八段"
+rating = 1666
+[[participants]]
+name = "藤井聡太二冠"
+rating = 1980
+[[participants]]
+name = "広瀬章人八段"
+rating = 1812
+[[participants]]
+name = "placeholder"
+rating = 0
+is_absent = true
