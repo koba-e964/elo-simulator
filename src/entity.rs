@@ -5,6 +5,31 @@ use std::fmt::Debug;
 pub struct GameConfig {
     pub participants: Vec<Participant>,
     pub kind: KindConfig,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub decided: Vec<Decided>,
+}
+
+impl GameConfig {
+    pub fn decided_matrix(&self) -> Vec<Vec<i32>> {
+        let n = self.participants.len();
+        let mut result = vec![vec![0; n]; n];
+        for d in &self.decided {
+            let winner_index = self
+                .participants
+                .iter()
+                .position(|participant| participant.name == d.winner);
+            let loser_index = self
+                .participants
+                .iter()
+                .position(|participant| participant.name == d.loser);
+            if let (Some(winner_index), Some(loser_index)) = (winner_index, loser_index) {
+                result[winner_index][loser_index] = 1;
+                result[loser_index][winner_index] = -1;
+            }
+        }
+        result
+    }
 }
 
 #[derive(Clone, PartialEq, Serialize, Deserialize)]
@@ -28,6 +53,12 @@ pub enum KindConfig {
     Elimination,
     RoundRobin,
     Custom,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Decided {
+    pub winner: String,
+    pub loser: String,
 }
 
 fn is_false(&a: &bool) -> bool {

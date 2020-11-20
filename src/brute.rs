@@ -6,6 +6,8 @@ pub fn brute(config: GameConfig) -> Vec<Vec<Probability>> {
     assert!(n <= 32);
     assert!(n.is_power_of_two());
 
+    let decided = config.decided_matrix();
+
     let mut probs = vec![0.0; n];
 
     // Try all patterns in the elimination
@@ -16,7 +18,12 @@ pub fn brute(config: GameConfig) -> Vec<Vec<Probability>> {
         while rem.len() > 1 {
             let mut next = vec![];
             for i in 0..rem.len() / 2 {
-                let prob_a_win = win_prob(ratings[rem[2 * i]], ratings[rem[2 * i + 1]]);
+                let mut prob_a_win = win_prob(ratings[rem[2 * i]], ratings[rem[2 * i + 1]]);
+                match decided[rem[2 * i]][rem[2 * i + 1]] {
+                    1 => prob_a_win = 1.0,
+                    -1 => prob_a_win = 0.0,
+                    _ => {}
+                }
                 let (prob, win) = if (bits & 1 << pos) != 0 {
                     (prob_a_win, rem[2 * i])
                 } else {

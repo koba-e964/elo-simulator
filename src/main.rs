@@ -33,6 +33,9 @@ fn main() -> std::io::Result<()> {
 }
 
 fn display_prob(p: Probability) -> String {
+    if p <= 1.0e-15 {
+        return "0".to_owned();
+    }
     if p >= 0.001 {
         return format!("{:.4}%", 100.0 * p);
     }

@@ -8,6 +8,8 @@ pub fn sim(config: GameConfig) -> Vec<Vec<Probability>> {
     let n = config.participants.len();
     assert!(n.is_power_of_two());
 
+    let decided = config.decided_matrix();
+
     // Run the simulation.
     const NUMBER_OF_SIMS: u64 = if cfg!(debug_assertions) {
         10_000
@@ -28,7 +30,12 @@ pub fn sim(config: GameConfig) -> Vec<Vec<Probability>> {
             for i in 0..rem.len() / 2 {
                 let a = ratings[rem[2 * i]];
                 let b = ratings[rem[2 * i + 1]];
-                let prob_a_win = win_prob(a, b);
+                let mut prob_a_win = win_prob(a, b);
+                match decided[rem[2 * i]][rem[2 * i + 1]] {
+                    1 => prob_a_win = 1.0,
+                    -1 => prob_a_win = 0.0,
+                    _ => {}
+                }
                 let a_win = rng.gen_bool(prob_a_win);
                 if a_win {
                     next.push(rem[2 * i]);
