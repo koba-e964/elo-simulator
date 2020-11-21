@@ -13,28 +13,33 @@ fn main() -> std::io::Result<()> {
     let probs = sim::sim(config.clone());
     let probs_exact = brute::brute(config.clone());
     println!(
-        "|{}\t|{}\t|{}\t|{}\t|",
-        "参加者", config.queries[0].name, "優勝確率(厳密)", config.queries[1].name,
+        "|{}\t|{}\t|{}\t|{}\t|{}\t|",
+        "参加者",
+        config.queries[0].name,
+        config.queries[0].name.clone() + "(厳密)",
+        config.queries[1].name,
+        config.queries[1].name.clone() + "(厳密)",
     );
-    println!("|---|---|---|---|");
+    println!("|---|---|---|---|---|");
     for i in 0..config.participants.len() {
         if config.participants[i].is_absent {
             continue;
         }
         println!(
-            "|{:?}\t|{}\t|{}\t|{}\t|",
+            "|{:?}\t|{}\t|{}\t|{}\t|{}\t|",
             config.participants[i],
             display_prob(probs[0][i]),
             display_prob(probs_exact[0][i]),
             display_prob(probs[1][i]),
+            display_prob(probs_exact[1][i]),
         );
     }
     Ok(())
 }
 
 fn display_prob(p: Probability) -> String {
-    if p <= 1.0e-15 {
-        return "0".to_owned();
+    if p < 1.0e-13 {
+        return format!("{:.4e}", p);
     }
     if p >= 0.001 {
         return format!("{:.4}%", 100.0 * p);
@@ -42,5 +47,5 @@ fn display_prob(p: Probability) -> String {
     if p >= 1.0e-6 {
         return format!("{:.4} ppm", 1.0e6 * p);
     }
-    return (1.0e9 * p).to_string() + " ppb";
+    format!("{:.4} ppb", 1.0e9 * p)
 }
