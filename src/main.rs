@@ -14,7 +14,7 @@ fn main() -> std::io::Result<()> {
     let probs_exact = brute::brute(config.clone());
     println!(
         "|{}\t|{}\t|{}\t|{}\t|",
-        "参加者", "優勝確率", "優勝確率(厳密)", "本戦出場確率"
+        "参加者", config.queries[0].name, "優勝確率(厳密)", config.queries[1].name,
     );
     println!("|---|---|---|---|");
     for i in 0..config.participants.len() {

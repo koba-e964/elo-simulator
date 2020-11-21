@@ -8,6 +8,9 @@ pub struct GameConfig {
     #[serde(default)]
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub decided: Vec<Decided>,
+    #[serde(default)]
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    pub queries: Vec<Query>,
 }
 
 impl GameConfig {
@@ -59,6 +62,20 @@ pub enum KindConfig {
 pub struct Decided {
     pub winner: String,
     pub loser: String,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+pub struct Query {
+    pub name: String,
+    #[serde(flatten)]
+    pub query: QueryInner,
+}
+
+#[derive(Debug, Clone, PartialEq, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum QueryInner {
+    Within(usize),
+    _NonExhaustive,
 }
 
 fn is_false(&a: &bool) -> bool {

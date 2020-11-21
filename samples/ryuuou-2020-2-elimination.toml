@@ -56,3 +56,10 @@ rating = 1812
 name = "placeholder"
 rating = 0
 is_absent = true
+
+[[queries]]
+name = "優勝確率"
+within = 1
+[[queries]]
+name = "本戦出場確率"
+within = 2
