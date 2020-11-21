@@ -54,7 +54,7 @@ name = "広瀬章人八段"
 rating = 1812
 [[participants]]
 name = "placeholder"
-rating = 0
+rating = -1000
 is_absent = true
 
 [[queries]]
@@ -63,3 +63,6 @@ within = 1
 [[queries]]
 name = "本戦出場確率"
 within = 2
+[[queries]]
+name = "2回戦進出確率"
+within = 8

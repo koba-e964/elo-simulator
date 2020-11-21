@@ -12,29 +12,45 @@ fn main() -> std::io::Result<()> {
     println!("config = {:?}", config);
     let probs = sim::sim(config.clone());
     let probs_exact = brute::brute(config.clone());
-    println!(
-        "|{}\t|{}\t|{}\t|{}\t|{}\t|",
-        "参加者",
-        config.queries[0].name,
-        config.queries[0].name.clone() + "(厳密)",
-        config.queries[1].name,
-        config.queries[1].name.clone() + "(厳密)",
-    );
-    println!("|---|---|---|---|---|");
-    for i in 0..config.participants.len() {
-        if config.participants[i].is_absent {
+    let m = config.queries.len();
+    let mut column_names = Vec::with_capacity(2 * m);
+    let mut columns = Vec::with_capacity(2 * m);
+    for i in 0..m {
+        column_names.push(config.queries[i].name.clone());
+        column_names.push(config.queries[i].name.clone() + "(厳密)");
+        columns.push(probs[i].clone());
+        columns.push(probs_exact[i].clone());
+    }
+    display_table(&config.participants, &column_names, &columns);
+
+    Ok(())
+}
+
+fn display_table(
+    participants: &[Participant],
+    column_names: &[String],
+    columns: &[Vec<Probability>],
+) {
+    print!("|参加者\t|");
+    for j in 0..columns.len() {
+        print!("{}\t|", column_names[j]);
+    }
+    println!();
+    print!("|---|");
+    for _ in 0..columns.len() {
+        print!("---|");
+    }
+    println!();
+    for i in 0..participants.len() {
+        if participants[i].is_absent {
             continue;
         }
-        println!(
-            "|{:?}\t|{}\t|{}\t|{}\t|{}\t|",
-            config.participants[i],
-            display_prob(probs[0][i]),
-            display_prob(probs_exact[0][i]),
-            display_prob(probs[1][i]),
-            display_prob(probs_exact[1][i]),
-        );
+        print!("|{:?}\t|", participants[i]);
+        for j in 0..columns.len() {
+            print!("{}\t|", display_prob(columns[j][i]));
+        }
+        println!();
     }
-    Ok(())
 }
 
 fn display_prob(p: Probability) -> String {
