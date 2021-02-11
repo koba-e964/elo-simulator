@@ -27,8 +27,11 @@ def main(year_class):
     for tr in soup.find_all('tr'):
         tds = tr.find_all('td')
         if len(tds) >= 2 and tds[1].text.isdigit():
+            up_down = tds[0].text
             rank = int(tds[1].text)
             name = tds[2].text
+            wins = int(tds[3].text)
+            losses = int(tds[4].text)
             results = []
             for i in range(5, len(tds)):
                 res_opponent = tds[i].text.split("\n")
@@ -40,7 +43,7 @@ def main(year_class):
                     results.append(
                         {'game_index': i - 5, 'result': ascii_result, 'opponent': opponent})
             mappings.append(
-                {'initial_rank': rank, 'name': name, 'results': results})
+                {'initial_rank': rank, 'name': name, 'wins': wins, 'losses': losses, 'up_down': up_down, 'results': results})
 
     print(json.dumps({'data': mappings}, ensure_ascii=False, indent=2))
 
